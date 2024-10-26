@@ -11,7 +11,7 @@ import {IoTrash} from "react-icons/io5";
 import {IoLanguage} from "react-icons/io5";
 import {IoLanguage as IoTranslate} from "react-icons/io5";
 import uploadFile from "../helpers/uploadFile";
-import backgroundImage from "../assets/wallapaper.jpg";
+import backgroundImage from "../assets/wallapaper.jpeg";
 import {IoMdSend} from "react-icons/io";
 import {GoogleGenerativeAI} from "@google/generative-ai";
 import {PiTranslateBold} from "react-icons/pi";
@@ -308,7 +308,7 @@ const MessagePage = () => {
       style={{backgroundImage: `url(${backgroundImage})`}}
       className="bg-no-repeat bg-cover"
     >
-      <header className="top-0 h-14 bg-transparent border-b border-gray-200 flex justify-between items-center px-4 relative z-50">
+      <header className=" top-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 flex justify-between items-center px-4 relative z-[9999] shadow-sm">
 
 
         <div className="flex items-center gap-4">
