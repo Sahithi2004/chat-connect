@@ -308,7 +308,8 @@ const MessagePage = () => {
       style={{backgroundImage: `url(${backgroundImage})`}}
       className="bg-no-repeat bg-cover"
     >
-      <header className=" top-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 flex justify-between items-center px-4 relative z-[9999] shadow-sm">
+      <header className="top-0 h-14 bg-gradient-to-b from-white/70 to-transparent backdrop-blur-sm border-b border-gray-200 flex justify-between items-center px-4 relative z-50 shadow-lg">
+
         <div className="flex items-center gap-4">
           <Link
             to="/"
