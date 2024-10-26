@@ -11,7 +11,7 @@ import {IoTrash} from "react-icons/io5";
 import {IoLanguage} from "react-icons/io5";
 import {IoLanguage as IoTranslate} from "react-icons/io5";
 import uploadFile from "../helpers/uploadFile";
-import backgroundImage from "../assets/wallapaper.jpeg";
+import backgroundImage from "../assets/wallapaper.jpg";
 import {IoMdSend} from "react-icons/io";
 import {GoogleGenerativeAI} from "@google/generative-ai";
 import {PiTranslateBold} from "react-icons/pi";
@@ -402,8 +402,8 @@ const MessagePage = () => {
               <div
                 key={index}
                 className={`group relative p-3 rounded-lg shadow-md transition duration-200 ease-in-out w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId
-                    ? "ml-auto bg-teal-100"
-                    : "bg-white"
+                  ? "ml-auto bg-teal-100"
+                  : "bg-white"
                   }`}
               >
                 <div className="w-full">

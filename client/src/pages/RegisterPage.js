@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import React,{useState} from "react";
+import {IoClose} from "react-icons/io5";
+import {Link,useNavigate} from "react-router-dom";
 import uploadFile from "../helpers/uploadFile";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const RegisterPage = () => {
-  const [data, setData] = useState({
+  const [data,setData] = useState({
     name: "",
     email: "",
     password: "",
     profile_pic: "",
   });
-  const [uploadPhoto, setUploadPhoto] = useState("");
+  const [uploadPhoto,setUploadPhoto] = useState("");
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const {name,value} = e.target;
 
     setData((preve) => {
       return {
@@ -53,7 +53,7 @@ const RegisterPage = () => {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/register`;
 
     try {
-      const response = await axios.post(URL, data);
+      const response = await axios.post(URL,data);
 
       toast.success(response.data.message);
 
@@ -75,7 +75,7 @@ const RegisterPage = () => {
   return (
     <div className="mt-5">
       <div className="bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto">
-        <h3>Welcome to Chat app!</h3>
+        <h3>Welcome to Chat Connect!</h3>
 
         <form className="grid gap-4 mt-5" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1">
