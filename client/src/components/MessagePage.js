@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { HiDotsVertical } from "react-icons/hi";
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa6";
-import { FaImage } from "react-icons/fa6";
-import { FaVideo } from "react-icons/fa6";
-import { IoMdTime } from "react-icons/io";
-import { IoTrash } from "react-icons/io5";
-import { IoLanguage } from "react-icons/io5";
-import { IoLanguage as IoTranslate } from "react-icons/io5";
+import React,{useEffect,useRef,useState} from "react";
+import {useSelector} from "react-redux";
+import {Link,useParams} from "react-router-dom";
+import {HiDotsVertical} from "react-icons/hi";
+import {FaAngleLeft} from "react-icons/fa6";
+import {FaPlus} from "react-icons/fa6";
+import {FaImage} from "react-icons/fa6";
+import {FaVideo} from "react-icons/fa6";
+import {IoMdTime} from "react-icons/io";
+import {IoTrash} from "react-icons/io5";
+import {IoLanguage} from "react-icons/io5";
+import {IoLanguage as IoTranslate} from "react-icons/io5";
 import uploadFile from "../helpers/uploadFile";
 import backgroundImage from "../assets/wallapaper.jpeg";
-import { IoMdSend } from "react-icons/io";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PiTranslateBold } from "react-icons/pi";
+import {IoMdSend} from "react-icons/io";
+import {GoogleGenerativeAI} from "@google/generative-ai";
+import {PiTranslateBold} from "react-icons/pi";
 
-const Avatar = ({ width, height, imageUrl, name, userId }) => (
+const Avatar = ({width,height,imageUrl,name,userId}) => (
   <div
     className="rounded-full overflow-hidden bg-gradient-to-r from-blue-400 to-purple-500"
-    style={{ width, height }}
+    style={{width,height}}
   >
     {imageUrl ? (
       <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
@@ -37,57 +37,57 @@ const MessagePage = () => {
     (state) => state?.user?.socketConnection
   );
   const user = useSelector((state) => state?.user);
-  const [dataUser, setDataUser] = useState({
+  const [dataUser,setDataUser] = useState({
     name: "",
     email: "",
     profile_pic: "",
     online: false,
     _id: "",
   });
-  const [openImageVideoUpload, setOpenImageVideoUpload] = useState(false);
-  const [message, setMessage] = useState({
+  const [openImageVideoUpload,setOpenImageVideoUpload] = useState(false);
+  const [message,setMessage] = useState({
     text: "",
     imageUrl: "",
     videoUrl: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [allMessage, setAllMessage] = useState([]);
+  const [loading,setLoading] = useState(false);
+  const [allMessage,setAllMessage] = useState([]);
   const currentMessage = useRef(null);
 
   // Enhanced states
-  const [showOptions, setShowOptions] = useState(false);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [scheduledMessage, setScheduledMessage] = useState({
+  const [showOptions,setShowOptions] = useState(false);
+  const [showScheduleModal,setShowScheduleModal] = useState(false);
+  const [selectedLanguage,setSelectedLanguage] = useState("English");
+  const [scheduledMessage,setScheduledMessage] = useState({
     text: "",
     dateTime: "",
   });
 
   // Translation states
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [translatedMessages, setTranslatedMessages] = useState({});
-  const [autoTranslate, setAutoTranslate] = useState(false);
+  const [isTranslating,setIsTranslating] = useState(false);
+  const [translatedMessages,setTranslatedMessages] = useState({});
+  const [autoTranslate,setAutoTranslate] = useState(false);
 
   // Initialize Gemini
   const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
 
   // Translation functions
-  const translateText = async (text, targetLang) => {
+  const translateText = async (text,targetLang) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({model: "gemini-pro"});
       const prompt = `Translate the following text to ${targetLang}: "${text}"`;
       const result = await model.generateContent(prompt);
       return result.response.text();
     } catch (error) {
-      console.error("Translation error:", error);
+      console.error("Translation error:",error);
       return text;
     }
   };
 
-  const handleTranslateMessage = async (messageId, text) => {
+  const handleTranslateMessage = async (messageId,text) => {
     if (!translatedMessages[messageId]) {
       setIsTranslating(true);
-      const translatedText = await translateText(text, selectedLanguage);
+      const translatedText = await translateText(text,selectedLanguage);
       setTranslatedMessages((prev) => ({
         ...prev,
         [messageId]: translatedText,
@@ -105,11 +105,11 @@ const MessagePage = () => {
     if (autoTranslate && allMessage.length > 0) {
       allMessage.forEach((msg) => {
         if (msg.text && !translatedMessages[msg._id]) {
-          handleTranslateMessage(msg._id, msg.text);
+          handleTranslateMessage(msg._id,msg.text);
         }
       });
     }
-  }, [autoTranslate, allMessage, selectedLanguage]);
+  },[autoTranslate,allMessage,selectedLanguage]);
 
   useEffect(() => {
     if (currentMessage.current) {
@@ -118,7 +118,7 @@ const MessagePage = () => {
         block: "end",
       });
     }
-  }, [allMessage]);
+  },[allMessage]);
 
   const handleOptionsClick = () => {
     setShowOptions(!showOptions);
@@ -133,7 +133,7 @@ const MessagePage = () => {
     if (window.confirm("Are you sure you want to clear this chat?")) {
       setAllMessage([]);
       setTranslatedMessages({});
-      socketConnection?.emit("clear-chat", {
+      socketConnection?.emit("clear-chat",{
         sender: user?._id,
         receiver: params.userId,
       });
@@ -149,7 +149,7 @@ const MessagePage = () => {
       // Retranslate all messages to new language
       allMessage.forEach((msg) => {
         if (msg.text) {
-          handleTranslateMessage(msg._id, msg.text);
+          handleTranslateMessage(msg._id,msg.text);
         }
       });
     }
@@ -157,13 +157,13 @@ const MessagePage = () => {
 
   const handleScheduleSubmit = () => {
     if (scheduledMessage.text && scheduledMessage.dateTime) {
-      socketConnection?.emit("schedule-message", {
+      socketConnection?.emit("schedule-message",{
         receiverId: params.userId,
         message: scheduledMessage.text,
         scheduleTime: scheduledMessage.dateTime,
       });
       setShowScheduleModal(false);
-      setScheduledMessage({ text: "", dateTime: "" });
+      setScheduledMessage({text: "",dateTime: ""});
     }
   };
 
@@ -212,26 +212,26 @@ const MessagePage = () => {
 
   useEffect(() => {
     if (socketConnection) {
-      socketConnection.emit("message-page", params.userId);
-      socketConnection.emit("seen", params.userId);
+      socketConnection.emit("message-page",params.userId);
+      socketConnection.emit("seen",params.userId);
 
-      socketConnection.on("message-user", (data) => {
+      socketConnection.on("message-user",(data) => {
         setDataUser(data);
       });
 
-      socketConnection.on("message", (data) => {
+      socketConnection.on("message",(data) => {
         setAllMessage(data);
       });
 
-      socketConnection.on("deleted", () => {
+      socketConnection.on("deleted",() => {
         setAllMessage([]);
         setTranslatedMessages({});
       });
     }
-  }, [params?.userId, user]);
+  },[params?.userId,user]);
 
   const handleOnChange = (e) => {
-    const { value } = e.target;
+    const {value} = e.target;
     setMessage((prev) => ({
       ...prev,
       text: value,
@@ -242,7 +242,7 @@ const MessagePage = () => {
     e.preventDefault();
     if (message.text || message.imageUrl || message.videoUrl) {
       if (socketConnection) {
-        socketConnection.emit("new message", {
+        socketConnection.emit("new message",{
           sender: user?._id,
           receiver: params.userId,
           text: message.text,
@@ -261,14 +261,14 @@ const MessagePage = () => {
 
   const formatTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString("en-US", {
+    return date.toLocaleTimeString("en-US",{
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
   };
 
-  const CloseIcon = ({ size = 24 }) => (
+  const CloseIcon = ({size = 24}) => (
     <svg
       width={size}
       height={size}
@@ -284,7 +284,7 @@ const MessagePage = () => {
     </svg>
   );
 
-  const OptionButton = ({ icon, children, onClick }) => (
+  const OptionButton = ({icon,children,onClick}) => (
     <button
       className="w-full px-4 py-2 text-left flex items-center gap-2 text-gray-700 hover:bg-gray-50 transition-colors"
       onClick={onClick}
@@ -296,6 +296,7 @@ const MessagePage = () => {
 
   const languages = [
     "English",
+    "Telugu",
     "Spanish",
     "French",
     "German",
@@ -304,7 +305,7 @@ const MessagePage = () => {
   ];
   return (
     <div
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      style={{backgroundImage: `url(${backgroundImage})`}}
       className="bg-no-repeat bg-cover"
     >
       <header className=" top-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 flex justify-between items-center px-4 relative z-[9999] shadow-sm">
@@ -397,14 +398,13 @@ const MessagePage = () => {
       <section className="h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar relative bg-slate-200 bg-opacity-50 p-4">
         <div className="flex flex-col gap-3">
           {Array.isArray(allMessage) &&
-            allMessage.map((msg, index) => (
+            allMessage.map((msg,index) => (
               <div
                 key={index}
-                className={`group relative p-3 rounded-lg shadow-md transition duration-200 ease-in-out w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${
-                  user._id === msg?.msgByUserId
+                className={`group relative p-3 rounded-lg shadow-md transition duration-200 ease-in-out w-fit max-w-[280px] md:max-w-sm lg:max-w-md ${user._id === msg?.msgByUserId
                     ? "ml-auto bg-teal-100"
                     : "bg-white"
-                }`}
+                  }`}
               >
                 <div className="w-full">
                   {msg?.imageUrl && (
@@ -436,7 +436,7 @@ const MessagePage = () => {
                     !autoTranslate && (
                       <button
                         onClick={() =>
-                          handleTranslateMessage(msg._id, msg.text)
+                          handleTranslateMessage(msg._id,msg.text)
                         }
                         className="opacity-0 group-hover:opacity-100 text-xs text-blue-500 hover:text-blue-700 transition-opacity duration-200 mt-1 whitespace-nowrap"
                       >
