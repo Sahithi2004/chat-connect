@@ -9,7 +9,7 @@ const AuthLayouts = ({children}) => {
           src={logo}
           alt='logo'
           width={180}
-          height={60}
+          height={80}
         />
       </header>
 
