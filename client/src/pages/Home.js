@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import React,{useEffect} from "react";
+import {useDispatch,useSelector} from "react-redux";
+import {Outlet,useLocation,useNavigate} from "react-router-dom";
 import {
   logout,
   setOnlineUser,
@@ -9,7 +9,7 @@ import {
   setUser,
 } from "../redux/userSlice";
 import Sidebar from "../components/Sidebar";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo1.png";
 import io from "socket.io-client";
 
 const Home = () => {
@@ -33,23 +33,23 @@ const Home = () => {
         navigate("/email");
       }
     } catch (error) {
-      console.log("error", error);
+      console.log("error",error);
     }
   };
 
   useEffect(() => {
     fetchUserDetails();
-  }, []);
+  },[]);
 
   /***socket connection */
   useEffect(() => {
-    const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
+    const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
       auth: {
         token: localStorage.getItem("token"),
       },
     });
 
-    socketConnection.on("onlineUser", (data) => {
+    socketConnection.on("onlineUser",(data) => {
       dispatch(setOnlineUser(data));
     });
 
@@ -58,7 +58,7 @@ const Home = () => {
     return () => {
       socketConnection.disconnect();
     };
-  }, []);
+  },[]);
 
   const basePath = location.pathname === "/";
   return (
@@ -73,9 +73,8 @@ const Home = () => {
       </section>
 
       <div
-        className={`justify-center items-center flex-col gap-2 hidden ${
-          !basePath ? "hidden" : "lg:flex"
-        }`}
+        className={`justify-center items-center flex-col gap-2 hidden ${!basePath ? "hidden" : "lg:flex"
+          }`}
       >
         <div>
           <img src={logo} width={250} alt="logo" />
